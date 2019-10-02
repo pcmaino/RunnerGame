@@ -1,5 +1,6 @@
 package com.mygdx.runnergame.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.runnergame.RunnerGame;
@@ -9,8 +10,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
 		config.title = "Runner";
-		config.width = 480;
-		config.height = 800;
+		config.width = Gdx.graphics.getWidth();
+		config.height = Gdx.graphics.getHeight();
 
 		new LwjglApplication(new RunnerGame(), config);
 	}

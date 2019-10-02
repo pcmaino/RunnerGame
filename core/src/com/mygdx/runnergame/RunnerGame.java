@@ -11,8 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 
 public class RunnerGame extends ApplicationAdapter {
-	int screen_width = 480;
-	int screen_height = 800;
+
 	SpriteBatch batch;			//draws our sprites
 	private OrthographicCamera camera;		//camera object
 	Texture roundboi_tx;		//texture files
@@ -26,7 +25,7 @@ public class RunnerGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 		roundboi_tx = new Texture("roundboi.png");
 		background_tx = new Texture("runner_screen.png");
@@ -40,6 +39,7 @@ public class RunnerGame extends ApplicationAdapter {
 		roundboi_rc.height = roundboi_tx.getHeight();
 	}
 
+
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(0, 0, 0.1f, .8f);		//sets screen to a color
@@ -48,7 +48,7 @@ public class RunnerGame extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);		//aligns the spritebatch with the camera's matrix
 
 		batch.begin();
-		//batch.draw(background_tx, 0, 0);
+		batch.draw(background_tx, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.draw(roundboi_tx, roundboi_rc.x, roundboi_rc.y);
 
 		batch.end();
