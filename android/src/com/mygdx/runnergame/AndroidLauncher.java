@@ -7,14 +7,14 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.mygdx.runnergame.RunnerGame;
 
 public class AndroidLauncher extends AndroidApplication {
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
-		config.useAccelerometer = false;
-		config.useCompass = false;
+        config.useAccelerometer = false;
+        config.useCompass = false;
 
-		initialize(new RunnerGame(), config);
-	}
+        initialize(new RunnerGame(), config);
+    }
 }
