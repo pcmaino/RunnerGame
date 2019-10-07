@@ -23,9 +23,7 @@ public class RunnerGame extends ApplicationAdapter {
 	Texture rhazard_tx;
 
 	private Rectangle roundboi_rc; //rectangle object for roundboi
-	private boolean isMovingRight;		//controls steady movement for roundboi
-	private boolean isMovingLeft;
-	private int roundboiSpeed = Gdx.graphics.getWidth()/18;
+	private laneStates roundboi_lane;
 
 	private HazardHandler hh;
 
@@ -49,8 +47,7 @@ public class RunnerGame extends ApplicationAdapter {
 		roundboi_rc.width = roundboi_tx.getWidth();
 		roundboi_rc.height = roundboi_tx.getHeight();
 
-		isMovingRight = false;
-		isMovingLeft = false;
+		roundboi_lane = laneStates.CENTER;
 
 		hh = new HazardHandler(batch, camera);
 	}
@@ -72,33 +69,37 @@ public class RunnerGame extends ApplicationAdapter {
 		batch.end();
 
 		//input handling
-		if(Gdx.input.isTouched() && !isMovingLeft  && !isMovingRight) {
-
-			//move roundboi along the 3 tracks, not allowing them to fall off
+		if(Gdx.input.justTouched()) {
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPos);		//syncs vector to cameras matrix
-			if(touchPos.x > Gdx.graphics.getWidth()/2) {
-				if(roundboi_rc.x != (Gdx.graphics.getWidth()* (5/6)) -64/2)  {
-					isMovingRight = true;
+
+			//Checks for seconds
+			if(roundboi_lane == laneStates.CENTER) {
+				if(touchPos.x < Gdx.graphics.getWidth()/2) {
+					System.out.println("Left Press");
+
+					roundboi_rc.x = Gdx.graphics.getWidth()/6 -64/2;;
+					System.out.println(roundboi_rc.x);
+					roundboi_lane = laneStates.LEFT;
+				}
+				else if(touchPos.x > Gdx.graphics.getWidth()/2) {
+					System.out.println("Right Press");
+
+					roundboi_rc.x = 5*(Gdx.graphics.getWidth()/6) -64/2; ;
+					System.out.println(roundboi_rc.x);
+					roundboi_lane = laneStates.RIGHT;
 				}
 			}
-			else if(touchPos.x < Gdx.graphics.getWidth()/2) {
-				if(roundboi_rc.x != (Gdx.graphics.getWidth()* (1/6)) -64/2)  {
-					isMovingLeft = true;
-				}
+			else if( (roundboi_lane == laneStates.LEFT && touchPos.x > Gdx.graphics.getWidth()/2) ||
+					(roundboi_lane == laneStates.RIGHT && touchPos.x < Gdx.graphics.getWidth()/2) ) {
+				System.out.println("Side Press");
+				roundboi_rc.x = Gdx.graphics.getWidth()/2 -64/2;
+				System.out.println(roundboi_rc.x);
+				roundboi_lane = laneStates.CENTER;
 			}
-			//roundboi_rc.x = touchPos.x - 64 / 2;
 		}
 
-		//incrementer of roundboi's movement
-		if(isMovingLeft) {
-			roundboi_rc.x -= roundboiSpeed;
 
-
-		}
-		else if(isMovingRight) {
-
-		}
 
 	}
 	
@@ -106,6 +107,7 @@ public class RunnerGame extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		roundboi_tx.dispose();
+		//add the rest of the disposes
 	}
 
 
