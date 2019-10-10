@@ -60,14 +60,18 @@ public class RunnerGame extends ApplicationAdapter {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);		//aligns the spritebatch with the camera's matrix
 
-
-
 		batch.begin();
 		batch.draw(background_tx, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		hh.drawHazards();
 		batch.draw(roundboi_tx, roundboi_rc.x, roundboi_rc.y);
-
 		batch.end();
 
+		inputHandler();
+		hh.moveHazards();
+		hh.spawnHazards();
+	}
+
+	laneStates inputHandler() {
 		//input handling
 		if(Gdx.input.justTouched()) {
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -99,8 +103,7 @@ public class RunnerGame extends ApplicationAdapter {
 			}
 		}
 
-
-
+		return roundboi_lane;
 	}
 	
 	@Override
