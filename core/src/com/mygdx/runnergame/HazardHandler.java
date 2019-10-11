@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class HazardHandler {
@@ -28,8 +29,8 @@ public class HazardHandler {
         this.camera = camera;
         this.hazards = new ArrayList<>();
 
-        hazardSpeed = 5;
-        timeSinceLastWave = 0;
+        hazardSpeed = 10;
+        timeSinceLastWave = 3;
         waveSpawnSpeed = 3;
 
         bhazard_tx = new Texture("hazard_b.png");
@@ -54,13 +55,39 @@ public class HazardHandler {
     }
 
     public void spawnHazards() {
+        if(timeSinceLastWave >= waveSpawnSpeed) {
+            Hazard n1 = new Hazard(Gdx.graphics.getWidth()/2 -bhazard_tx.getWidth()/2,
+                    Gdx.graphics.getHeight(),
+                    bhazard_tx.getHeight(),
+                    bhazard_tx.getWidth()
+                    );
+
+
+            Hazard n2 = new Hazard(5*(Gdx.graphics.getWidth()/6) -bhazard_tx.getWidth()/2,
+                    Gdx.graphics.getHeight(),
+                    bhazard_tx.getHeight(),
+                    bhazard_tx.getWidth()
+                    );
+
+            hazards.add(n1);
+            hazards.add(n2);
+            timeSinceLastWave = 0;
+        }
 
 
     }
 
     //remember! if any hazard has y <0, delete it.
     public void moveHazards() {
+        Iterator i = hazards.iterator();
+        while(i.hasNext()) {
+            Hazard h = (Hazard) i.next();
+            h.getRec().y -= hazardSpeed;
 
+            if(h.getRec().y <= 0) {
+                i.remove();
+            }
+        }
     }
 
     //will raise both the spawn speed and the movement speed

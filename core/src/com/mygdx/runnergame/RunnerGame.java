@@ -89,7 +89,7 @@ public class RunnerGame extends ApplicationAdapter {
 				else if(touchPos.x > Gdx.graphics.getWidth()/2) {
 					System.out.println("Right Press");
 
-					roundboi_rc.x = 5*(Gdx.graphics.getWidth()/6) -64/2; ;
+					roundboi_rc.x = 5*(Gdx.graphics.getWidth()/6) -64/2;
 					System.out.println(roundboi_rc.x);
 					roundboi_lane = laneStates.RIGHT;
 				}
