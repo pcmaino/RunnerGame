@@ -30,6 +30,8 @@ public class Hazard {
         rec.x = x;
         rec.y = y;
         this.color = color;
+
+
     }
 
     public Rectangle getRec() {

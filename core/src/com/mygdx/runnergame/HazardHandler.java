@@ -1,13 +1,9 @@
 package com.mygdx.runnergame;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.Timer;
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,18 +11,16 @@ import java.util.Iterator;
 
 public class HazardHandler {
     private SpriteBatch batch;
-    private OrthographicCamera camera;
-    ArrayList<Hazard> hazards;
-    Texture bhazard_tx;
-    Texture rhazard_tx;
+    private ArrayList<Hazard> hazards;
+    private Texture bhazard_tx;
+    private Texture rhazard_tx;
 
-    int hazardSpeed;
-    float timeSinceLastWave; //keeps track of the time since the last wave was drawn, in seconds
-    float waveSpawnSpeed;
+    private  int hazardSpeed;
+    private float timeSinceLastWave; //keeps track of the time since the last wave was drawn, in seconds
+    private float waveSpawnSpeed;
 
-    public HazardHandler(SpriteBatch batch, OrthographicCamera camera) {
+    public HazardHandler(SpriteBatch batch) {
         this.batch = batch;
-        this.camera = camera;
         this.hazards = new ArrayList<>();
 
         hazardSpeed = 10;
@@ -40,6 +34,9 @@ public class HazardHandler {
     }
 
 
+    public ArrayList<Hazard> getHazards() {
+        return hazards;
+    }
 
     public void drawHazards() {
         for(Hazard h:hazards) {
@@ -52,6 +49,7 @@ public class HazardHandler {
         }
 
         timeSinceLastWave += Gdx.graphics.getDeltaTime(); //returns the time since the last frame was drawn in seconds
+
     }
 
     public void spawnHazards() {
@@ -69,8 +67,36 @@ public class HazardHandler {
                     bhazard_tx.getWidth()
                     );
 
+
+            //handler for making sure all 3 hazards arent the same
+            Hazard n3 = null;
+            if(n2.getColor() == 'r' && n1.getColor() == 'r') {
+                n3 = new Hazard((Gdx.graphics.getWidth()/6) -bhazard_tx.getWidth()/2,
+                        Gdx.graphics.getHeight(),
+                        bhazard_tx.getHeight(),
+                        bhazard_tx.getWidth(),
+                        'b'
+                );
+            }
+            else if (n2.getColor() == 'b' && n1.getColor() == 'b') {
+                n3 = new Hazard((Gdx.graphics.getWidth()/6) -bhazard_tx.getWidth()/2,
+                        Gdx.graphics.getHeight(),
+                        bhazard_tx.getHeight(),
+                        bhazard_tx.getWidth(),
+                        'r'
+                );
+            }
+            else {
+                n3 = new Hazard((Gdx.graphics.getWidth()/6) -bhazard_tx.getWidth()/2,
+                        Gdx.graphics.getHeight(),
+                        bhazard_tx.getHeight(),
+                        bhazard_tx.getWidth()
+                );
+            }
+
             hazards.add(n1);
             hazards.add(n2);
+            hazards.add(n3);
             timeSinceLastWave = 0;
         }
 
@@ -88,10 +114,23 @@ public class HazardHandler {
                 i.remove();
             }
         }
+
+        checkRaiseSpeeds();
     }
 
     //will raise both the spawn speed and the movement speed
-    public void raiseSpeeds() {
+    public void checkRaiseSpeeds() {
+        if(RunnerGame.score >= hazardSpeed) {
+            System.out.println("SPEEDING UP!");
+            hazardSpeed +=6;
+        }
+        if(RunnerGame.score >= 30 && waveSpawnSpeed != 2) {
+            waveSpawnSpeed = 2;
+        }
+
+        if(RunnerGame.score >= 60 && waveSpawnSpeed != 1) {
+            waveSpawnSpeed = 1;
+        }
 
     }
 }
