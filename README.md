@@ -1,4 +1,4 @@
->SwapRun
+# SwapRun
 
 > Dodge the hazards.
 > Anticipate the swaps.
@@ -9,6 +9,8 @@ Move along three tracks and dodge incoming projectiles. You can only travel thro
 Your color will swap with a audio queue, one to warn you and another one exactly 1 second later. 
 
 Try and predict what color you will be when you hit the projctiles and survive as long as possible! 
+
+<img src="https://i.imgur.com/lzT2NnF.jpg" width="250" > <img src="https://i.imgur.com/wObltIs.jpg" width="250" > <img src="https://i.imgur.com/vYeQxLe.jpg" width="250" >
 
 
 Progress:
